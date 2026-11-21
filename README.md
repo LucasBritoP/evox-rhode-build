@@ -9,7 +9,15 @@ Script de build da **Evolution X 10.x (branch `vic`, Android 15)** para o moto g
 
 As árvores usadas são as oficiais da Evo (`Evolution-X-Devices`, mantenedor Deivid21). A última build oficial do rhode no A15 saiu em 17/09/2025.
 
-> **Status:** ainda não foi testado no aparelho. Use por sua conta e risco e tenha o `boot.img` anterior à mão.
+> **Status:** testado e **funcionando** no moto g52 (ROM + SukiSU-Nova + SUSFS) desde 21/11/2026. Projeto **mantido ativamente**. Fico no **Android 15** de propósito: do Android 16 em diante o aparelho fica instável com os 4 GB de RAM — travamentos e reinícios do nada. Use por sua conta e risco e tenha o `boot.img` anterior à mão.
+
+## Download
+
+Imagens prontas (flash completo) para o `rhode`: **(link do Google Drive em breve)**
+
+O pacote traz o **zip de flash completo** (ROM + kernel SukiSU-Nova + SUSFS embutido) e os `.img` da primeira instalação (`boot`, `dtbo`, `vendor_boot`, `vbmeta`, `vbmeta_system`), com `SHA256SUMS`. Instruções em [Instalação](#instalação).
+
+Quem quiser compilar do zero continua podendo — veja [Uso](#uso) abaixo.
 
 ## Uso
 
