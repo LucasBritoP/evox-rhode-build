@@ -127,7 +127,10 @@ if [ ! -d "$K/KernelSU/.git" ]; then
   git clone -b builtin https://github.com/SukiSU-Nova/SukiSU-Nova "$K/KernelSU"
   git -C "$K/KernelSU" branch -q main origin/main   # o Makefile conta commits de "main" se a API do GitHub falhar
 fi
-git -C "$K/KernelSU" checkout -q "$SUKISU_REF"
+git -C "$K/KernelSU" checkout -q -f "$SUKISU_REF"
+# Ajustes para compilar o builtin no 4.19: static_call.h só existe a partir do 5.10, access_ok de 3 args
+# no KPM e variáveis só usadas no ramo >= 5.10 (com -Werror).
+apply_once "$K/KernelSU" "$PATCH_DIR/sukisu-4.19.patch"
 ln -sfn ../KernelSU/kernel "$K/drivers/kernelsu"
 grep -q 'kernelsu/' "$K/drivers/Makefile" || printf '\nobj-$(CONFIG_KSU) += kernelsu/\n' >> "$K/drivers/Makefile"
 grep -q 'drivers/kernelsu/Kconfig' "$K/drivers/Kconfig" || sed -i '/^endmenu/i source "drivers/kernelsu/Kconfig"' "$K/drivers/Kconfig"
@@ -166,8 +169,9 @@ m bootimage -j"$JOBS" || die "falha ao compilar o boot.img/kernel (veja o log ac
 KO=$OUT/obj/KERNEL_OBJ
 grep -q '^CONFIG_KSU=y' "$KO/.config" && grep -q '^CONFIG_KSU_SUSFS=y' "$KO/.config" \
   || die "SukiSU/SUSFS não entrou no .config final ($KO/.config)"
-[ -f "$KO/drivers/kernelsu/ksu.o" ] || die "ksu.o (SukiSU) não foi compilado"
-[ -f "$KO/fs/susfs.o" ] || die "susfs.o não foi compilado"
+# Pelo System.map: o nome do objeto muda entre versões do kbuild (ksu.o / ksu_main.o).
+grep -qw apply_kernelsu_rules "$KO/System.map" || die "SukiSU não está no kernel (System.map)"
+grep -qw susfs_init "$KO/System.map" || die "SUSFS não está no kernel (System.map)"
 log "SukiSU-Nova + SUSFS OK no kernel"
 
 log "Compilando a ROM (2-4 h)"

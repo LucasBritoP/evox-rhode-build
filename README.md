@@ -31,6 +31,7 @@ Variáveis opcionais: `SRC`, `JOBS`, `SUKISU_REF`, `PATCH_DIR` e `SKIP_SYNC=1` (
 | Arquivo | Repo | O que faz |
 |---|---|---|
 | `susfs-v2.4.0-rhode-4.19.patch` | `kernel/motorola/sm6225` | SUSFS v2.4.0 com os hooks inline do SukiSU (veja abaixo) |
+| `sukisu-4.19.patch` | `kernel/motorola/sm6225/KernelSU` | Faz o SukiSU-Nova `builtin` (4bec532d) compilar no 4.19 (veja abaixo) |
 | `motcamera-common-sepolicy.patch` | `vendor/motorola/MotCamera-common` | Esvazia dois `property_contexts` duplicados |
 | `rhode-ram.patch` | `device/motorola/rhode` | `TARGET_ENABLE_BLUR := false` e `TARGET_SUPPORTS_QUICK_TAP := false` |
 | `sm6225-common-ram.patch` | `device/motorola/sm6225-common` | `dalvik.vm.heapmaxfree` de 24m para 16m (4 GB) |
@@ -55,6 +56,16 @@ A base é o `susfs_patch_to_4.19.patch` e o `susfs_inline_hook_patches.sh` do [N
 - o caminho do `ksud` (`second_stage` e primeiro zygote) não depende mais do `su_compat`;
 - `clone_mnt` não herda o bit `KSU_UNSHARED`, o que evita vazar IDs de mount (bug do SUSFS upstream);
 - `kfree(scontext)` no spoof do log AVC, que corrige um vazamento de memória (bug do SUSFS upstream).
+
+### SukiSU-Nova `builtin` no kernel 4.19
+
+O commit `4bec532d` não compila em kernels anteriores ao 5.10:
+
+- `kernel_includes.h` inclui `<linux/static_call.h>` sem guarda de versão (o header só existe a partir do 5.10, e nada no código usa `static_call`);
+- `extension/kpm/kpm.c` chama `access_ok()` com 2 argumentos em vez do wrapper `ksu_access_ok()`, que cobre a assinatura de 3 argumentos dos kernels antigos;
+- em `selinux/rules.c`, `pol` e `old_pol` só são usados no ramo >= 5.10, e o `-Werror` do kernel transforma o aviso em erro.
+
+Com o patch, o kernel compila com `CONFIG_KSU=y` e `CONFIG_KSU_SUSFS=y`, e o boot mostra `susfs is initialized! version: v2.4.0`.
 
 ## Instalação
 

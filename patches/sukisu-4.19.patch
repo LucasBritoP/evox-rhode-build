@@ -1,0 +1,41 @@
+diff --git a/kernel/extension/kpm/kpm.c b/kernel/extension/kpm/kpm.c
+index 5735c2d3..70df9997 100644
+--- a/kernel/extension/kpm/kpm.c
++++ b/kernel/extension/kpm/kpm.c
+@@ -179,7 +179,7 @@ int do_kpm(void __user *arg)
+     int result;
+     /* Called only through the manager_or_root-authorized extension ioctl. */
+     if (copy_from_user(&cmd, arg, sizeof(cmd))) return -EFAULT;
+-    if (!access_ok(u64_to_user_ptr(cmd.result_code), sizeof(result))) return -EFAULT;
++    if (!ksu_access_ok(u64_to_user_ptr(cmd.result_code), sizeof(result))) return -EFAULT; // wrapper cobre o access_ok de 3 args (< 5.0)
+     result = handle_kpm(&cmd);
+     return copy_to_user(u64_to_user_ptr(cmd.result_code), &result, sizeof(result)) ? -EFAULT : 0;
+ }
+diff --git a/kernel/kernel_includes.h b/kernel/kernel_includes.h
+index 422fde3d..f07fb5a3 100644
+--- a/kernel/kernel_includes.h
++++ b/kernel/kernel_includes.h
+@@ -73,7 +73,9 @@
+ #include <linux/vmalloc.h>
+ #include <linux/tty.h>
+ #include <linux/kref.h>
+-#include <linux/static_call.h>
++#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
++#include <linux/static_call.h> // não existe antes do 5.10 e nada aqui usa static_call
++#endif
+ #include "arch.h"
+ #ifdef CONFIG_KSU_SUSFS
+ #include <linux/susfs.h>
+diff --git a/kernel/selinux/rules.c b/kernel/selinux/rules.c
+index 6f73a740..dcc05ea9 100644
+--- a/kernel/selinux/rules.c
++++ b/kernel/selinux/rules.c
+@@ -151,7 +151,7 @@ static int apply_kernelsu_rules_fn(void *ptr)
+ 
+ void apply_kernelsu_rules(void)
+ {
+-    struct selinux_policy *pol, *old_pol;
++    struct selinux_policy *pol __maybe_unused, *old_pol __maybe_unused; // só usados no ramo >= 5.10
+     struct policydb *db;
+ 
+     if (!getenforce()) {
