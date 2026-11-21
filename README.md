@@ -13,7 +13,7 @@ As árvores usadas são as oficiais da Evo (`Evolution-X-Devices`, mantenedor De
 
 ## Download
 
-Imagens prontas (flash completo) para o `rhode`: **(link do Google Drive em breve)**
+Imagens prontas (flash completo) para o `rhode`: **[Google Drive](https://drive.google.com/drive/folders/1OdEMKKHBpehssSvBkCgiEpqljaWuNcSU?usp=sharing)**
 
 O pacote traz o **zip de flash completo** (ROM + kernel SukiSU-Nova + SUSFS embutido) e os `.img` da primeira instalação (`boot`, `dtbo`, `vendor_boot`, `vbmeta`, `vbmeta_system`), com `SHA256SUMS`. Instruções em [Instalação](#instalação).
 
