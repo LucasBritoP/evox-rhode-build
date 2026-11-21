@@ -1,0 +1,4 @@
+# Patches e scripts precisam de LF; CRLF quebra o patch no Linux.
+*.sh    text eol=lf
+*.patch text eol=lf
+*.md    text eol=lf

@@ -1,0 +1,26 @@
+diff --git a/init/init.mmi.dalvik.rc b/init/init.mmi.dalvik.rc
+index 1835413..4ce37b2 100644
+--- a/init/init.mmi.dalvik.rc
++++ b/init/init.mmi.dalvik.rc
+@@ -12,7 +12,7 @@ on property:ro.vendor.hw.ram=4GB
+     setprop dalvik.vm.heapsize 512m
+     setprop dalvik.vm.heaptargetutilization 0.55
+     setprop dalvik.vm.heapminfree 8m
+-    setprop dalvik.vm.heapmaxfree 24m
++    setprop dalvik.vm.heapmaxfree 16m
+ 
+ on property:ro.vendor.hw.ram=6GB
+     setprop dalvik.vm.heapstartsize 16m
+diff --git a/vendor.prop b/vendor.prop
+index 9434f60..3a5d8dc 100644
+--- a/vendor.prop
++++ b/vendor.prop
+@@ -100,7 +100,7 @@ dalvik.vm.heapgrowthlimit=256m
+ dalvik.vm.heapsize=512m
+ dalvik.vm.heaptargetutilization=0.55
+ dalvik.vm.heapminfree=8m
+-dalvik.vm.heapmaxfree=24m
++dalvik.vm.heapmaxfree=16m
+ 
+ # Display
+ debug.sf.enable_hwc_vds=1

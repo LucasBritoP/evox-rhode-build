@@ -1,0 +1,47 @@
+diff --git a/sepolicy/private/property_contexts b/sepolicy/private/property_contexts
+index 97bb150..6d11a98 100644
+--- a/sepolicy/private/property_contexts
++++ b/sepolicy/private/property_contexts
+@@ -1,16 +1,2 @@
+-# Property for camera
+-camera.mot.is.coming.cts     u:object_r:exported_system_prop:s0 exact string
+-camera.mot.is.coming.cts     u:object_r:moto_camera_config_prop:s0 exact bool
+-
+-# Allow camera interface to access ro.camera.xxx
+-ro.camera.req.fmq.size u:object_r:camera_config_prop:s0 exact int
+-ro.camera.req.fmq.size u:object_r:moto_camera_config_prop:s0 exact bool
+-ro.camera.res.fmq.size u:object_r:camera_config_prop:s0 exact int
+-ro.camera.res.fmq.size u:object_r:moto_camera_config_prop:s0 exact bool
+-
+-## Allow qcrild read moto customid properties
+-ro.mot.build.customerid u:object_r:build_prop:s0
+-
+-# Camera
+-vendor.camera.aux.packagelist              u:object_r:vendor_persist_camera_prop:s0
+-persist.vendor.camera.privapp.list         u:object_r:vendor_persist_camera_prop:s0
++# Vazio de propósito: todas as entradas já estão em hardware/motorola/sepolicy/qti/private
++# e device/qcom/sepolicy; duplicá-las quebra o host_init_verifier ("Duplicate exact match").
+diff --git a/sepolicy/system_ext/property_contexts b/sepolicy/system_ext/property_contexts
+index a7d1098..6d11a98 100644
+--- a/sepolicy/system_ext/property_contexts
++++ b/sepolicy/system_ext/property_contexts
+@@ -1,17 +1,2 @@
+-# Property for camera
+-camera.mot.is.coming.cts     u:object_r:exported_system_prop:s0 exact string
+-camera.mot.is.coming.cts     u:object_r:moto_camera_config_prop:s0 exact bool
+-
+-# Allow camera interface to access ro.camera.xxx
+-ro.camera.req.fmq.size u:object_r:camera_config_prop:s0 exact int
+-ro.camera.req.fmq.size u:object_r:moto_camera_config_prop:s0 exact bool
+-ro.camera.res.fmq.size u:object_r:camera_config_prop:s0 exact int
+-ro.camera.res.fmq.size u:object_r:moto_camera_config_prop:s0 exact bool
+-
+-## Allow qcrild read moto customid properties
+-ro.mot.build.customerid u:object_r:build_prop:s0 exact string
+-ro.mot.build.customerid u:object_r:build_prop:s0
+-
+-# Camera
+-vendor.camera.aux.packagelist              u:object_r:vendor_persist_camera_prop:s0
+-persist.vendor.camera.privapp.list         u:object_r:vendor_persist_camera_prop:s0
++# Vazio de propósito: todas as entradas já estão em hardware/motorola/sepolicy/qti/private
++# e device/qcom/sepolicy; duplicá-las quebra o host_init_verifier ("Duplicate exact match").

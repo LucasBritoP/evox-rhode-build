@@ -1,0 +1,15 @@
+diff --git a/lineage_rhode.mk b/lineage_rhode.mk
+index 18cc458..6a1149d 100644
+--- a/lineage_rhode.mk
++++ b/lineage_rhode.mk
+@@ -10,6 +10,10 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
+ # Inherit from device
+ $(call inherit-product, device/motorola/rhode/device.mk)
+ 
++# 4 GB RAM: blur off by default (still toggleable in Settings) and no Quick Tap service.
++TARGET_ENABLE_BLUR := false
++TARGET_SUPPORTS_QUICK_TAP := false
++
+ # Inherit some common LineageOS stuff.
+ $(call inherit-product, vendor/lineage/config/common_full_phone.mk)
+ 
